@@ -8,6 +8,7 @@ from gi.repository import Gtk
 
 
 stack = []
+display_locker = False
 
 
 class mainWindow(Gtk.Window):
@@ -20,7 +21,6 @@ class mainWindow(Gtk.Window):
         self.add(self.grid)
 
         self.display = Gtk.Entry(xalign=1, editable=False)
-        self.display.set_text('0')
 
         self.zero = Gtk.Button(label="0")
         self.zero.connect("clicked", self.insert_zero)
@@ -107,55 +107,108 @@ class mainWindow(Gtk.Window):
 
 
     def insert_zero(self, zero):
-        self.display.set_text(self.display.get_text() + "0")
+        global display_locker
+        if display_locker == True:
+            self.display.set_text("0")
+            display_locker = False
+        else:
+            self.display.set_text(self.display.get_text() + "0")
 
 
     def insert_one(self, one):
-        self.display.set_text(self.display.get_text() + "1")
+        global display_locker
+        if display_locker == True:
+            self.display.set_text("1")
+            display_locker = False
+        else:
+            self.display.set_text(self.display.get_text() + "1")
 
 
     def insert_two(self, two):
-        self.display.set_text(self.display.get_text() + "2")
+        global display_locker
+        if display_locker == True:
+            self.display.set_text("2")
+            display_locker = False
+        else:
+            self.display.set_text(self.display.get_text() + "2")
 
 
     def insert_three(self, three):
-        self.display.set_text(self.display.get_text() + "3")
+        global display_locker
+        if display_locker == True:
+            self.display.set_text("3")
+            display_locker = False
+        else:
+            self.display.set_text(self.display.get_text() + "3")
 
 
     def insert_four(self, four):
-        self.display.set_text(self.display.get_text() + "4")
+        global display_locker
+        if display_locker == True:
+            self.display.set_text("4")
+            display_locker = False
+        else:
+            self.display.set_text(self.display.get_text() + "4")
 
 
     def insert_five(self, five):
-        self.display.set_text(self.display.get_text() + "5")
+        global display_locker
+        if display_locker == True:
+            self.display.set_text("5")
+            display_locker = False
+        else:
+            self.display.set_text(self.display.get_text() + "5")
 
 
     def insert_six(self, six):
-        self.display.set_text(self.display.get_text() + "6")
+        global display_locker
+        if display_locker == True:
+            self.display.set_text("6")
+            display_locker = False
+        else:
+            self.display.set_text(self.display.get_text() + "6")
 
 
     def insert_seven(self, seven):
-        self.display.set_text(self.display.get_text() + "7")
+        global display_locker
+        if display_locker == True:
+            self.display.set_text("7")
+            display_locker = False
+        else:
+            self.display.set_text(self.display.get_text() + "7")
 
 
     def insert_eight(self, eight):
-        self.display.set_text(self.display.get_text() + "8")
+        global display_locker
+        if display_locker == True:
+            self.display.set_text("8")
+            display_locker = False
+        else:
+            self.display.set_text(self.display.get_text() + "8")
 
 
     def insert_nine(self, nine):
-        self.display.set_text(self.display.get_text() + "9")
+        global display_locker
+        if display_locker == True:
+            self.display.set_text("9")
+            display_locker = False
+        else:
+            self.display.set_text(self.display.get_text() + "9")
 
 
     def activate_clear_display(self, clear_display):
-        self.display.set_text("")
+        self.display.set_text('')
 
 
     def add_to_stack(self, enter):
+        global display_locker
         stack.append(float(self.display.get_text()))
+        display_locker = True
         print(stack)
 
 
     def acting_addiction(self, addiction):
+        global display_locker
         x = stack[-1]
         stack.pop()
         y = stack[-1]
@@ -163,10 +216,12 @@ class mainWindow(Gtk.Window):
         score = x + y
         stack.append(score)
         self.display.set_text(str(score))
+        display_locker = True
         print(stack)
 
 
     def acting_substraction(self, substraction):
+        global display_locker
         x = stack[-1]
         stack.pop()
         y = stack[-1]
@@ -174,10 +229,12 @@ class mainWindow(Gtk.Window):
         score = x - y
         stack.append(score)
         self.display.set_text(str(score))
+        display_locker = True
         print(stack)
 
 
     def acting_multiplication(self, multiplication):
+        global display_locker
         x = stack[-1]
         stack.pop()
         y = stack[-1]
@@ -185,10 +242,12 @@ class mainWindow(Gtk.Window):
         score = x * y
         stack.append(score)
         self.display.set_text(str(score))
+        display_locker = True
         print(stack)
 
 
     def acting_division(self, division):
+        global display_locker
         x = stack[-1]
         stack.pop()
         y = stack[-1]
@@ -196,6 +255,7 @@ class mainWindow(Gtk.Window):
         score = x / y
         stack.append(score)
         self.display.set_text(str(score))
+        display_locker = True
         print(stack)
 
 
