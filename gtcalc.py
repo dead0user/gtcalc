@@ -20,20 +20,14 @@ class mainWindow(Gtk.Window):
 
         Gtk.Window.__init__(self, title="gtCalc")
 
-        self.grid = Gtk.Grid()
-        self.grid.set_column_spacing(5)
-        self.grid.set_row_spacing(5)
-        self.add(self.grid)
+        self.create_buttons()
+        self.create_display()
+        self.create_grid()
 
         self.connect("key-press-event", self.numeric_on_key_press_event)
         self.connect("key-press-event", self.on_key_press_event)
 
-        self.display = Gtk.Entry(xalign=1, editable=False)
-        self.display.set_max_length(25)
-        self.display.modify_font(Pango.FontDescription('Dejavu Sans Mono 11'))
-
-        self.register_display = Gtk.Entry(xalign=1, editable=False)
-
+    def create_buttons(self):
         self.zero = Gtk.Button(label="0")
         self.zero.connect("clicked", self.insert_zero)
 
@@ -73,8 +67,8 @@ class mainWindow(Gtk.Window):
         self.addiction = Gtk.Button(label="+")
         self.addiction.connect("clicked", self.acting_addiction)
 
-        self.substraction = Gtk.Button(label="-")
-        self.substraction.connect("clicked", self.acting_substraction)
+        self.subtraction = Gtk.Button(label="-")
+        self.subtraction.connect("clicked", self.acting_subtraction)
 
         self.multiplication = Gtk.Button(label="*")
         self.multiplication.connect("clicked", self.acting_multiplication)
@@ -100,8 +94,18 @@ class mainWindow(Gtk.Window):
         self.e_const = Gtk.Button(label="E")
         self.e_const.connect("clicked", self.insert_e_const)
 
+    def create_display(self):
+        self.display = Gtk.Entry(xalign=1, editable=False)
+        self.display.set_max_length(25)
+        self.display.modify_font(Pango.FontDescription('Dejavu Sans Mono 11'))
+
+    def create_grid(self):
+        self.grid = Gtk.Grid()
+        self.grid.set_column_spacing(5)
+        self.grid.set_row_spacing(5)
+        self.add(self.grid)
+
         self.grid.attach(self.display, 0, 0, 5, 1)
-        self.grid.attach(self.register_display, 4, 0, 3, 2)
 
         self.grid.attach(self.seven, 0, 2, 1, 1)
         self.grid.attach(self.eight, 1, 2, 1, 1)
@@ -119,7 +123,7 @@ class mainWindow(Gtk.Window):
         self.grid.attach(self.one, 0, 4, 1, 1)
         self.grid.attach(self.two, 1, 4, 1, 1)
         self.grid.attach(self.three, 2, 4, 1, 1)
-        self.grid.attach(self.substraction, 3, 4, 1, 1)
+        self.grid.attach(self.subtraction, 3, 4, 1, 1)
         self.grid.attach(self.turn_off, 4, 4, 1, 1)
 
         self.grid.attach(self.zero, 0, 5, 1, 1)
@@ -240,15 +244,7 @@ class mainWindow(Gtk.Window):
         global display_locker
         stack.append(float(self.display.get_text()))
         display_locker = True
-        self.view_regs()
         print(stack)
-
-    def view_regs(self):
-        self.register_x_value.set_text("X: " + str(stack[-1]))
-        if len(stack) > 1:
-            self.register_y.set_text("Y: " + str(stack[-2]))
-        if len(stack) > 2:
-            self.register_z.set_text("Z: " + str(stack[-3]))
 
     def acting_addiction(self, addiction):
         global display_locker
@@ -262,7 +258,7 @@ class mainWindow(Gtk.Window):
         display_locker = True
         print(stack)
 
-    def acting_substraction(self, substraction):
+    def acting_subtraction(self, subtraction):
         global display_locker
         x = stack[-1]
         stack.pop()
@@ -346,7 +342,7 @@ class mainWindow(Gtk.Window):
             self.acting_addiction(self)
 
         if event.keyval == Gdk.KEY_KP_Subtract:
-            self.acting_substraction(self)
+            self.acting_subtraction(self)
 
         if event.keyval == Gdk.KEY_KP_Multiply:
             self.acting_multiplication(self)
