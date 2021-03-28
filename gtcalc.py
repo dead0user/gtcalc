@@ -1,4 +1,3 @@
-#!/usr/bin/python
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
@@ -12,7 +11,7 @@ stack = []
 display_locker = True
 
 
-class mainWindow(Gtk.Window):
+class MainWindow(Gtk.Window):
 
     key = Gdk.KEY_0
 
@@ -143,14 +142,6 @@ class mainWindow(Gtk.Window):
         else:
             pass
 
-    def insert_zero(self, zero):
-        global display_locker
-        if display_locker is True:
-            self.display.set_text("0")
-            display_locker = False
-        else:
-            self.display.set_text(self.display.get_text() + "0")
-
     def do_change_sign(self, change_sign):
         global display_locker
         if display_locker is True:
@@ -158,6 +149,14 @@ class mainWindow(Gtk.Window):
             display_locker = False
         else:
             pass
+
+    def insert_zero(self, zero):
+        global display_locker
+        if display_locker is True:
+            self.display.set_text("0")
+            display_locker = False
+        else:
+            self.display.set_text(self.display.get_text() + "0")
 
     def insert_one(self, one):
         global display_locker
@@ -361,7 +360,7 @@ class mainWindow(Gtk.Window):
 
 
 if __name__ == '__main__':
-    win = mainWindow()
+    win = MainWindow()
     win.connect("destroy", Gtk.main_quit)
     win.show_all()
     Gtk.main()
