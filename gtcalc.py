@@ -97,6 +97,20 @@ class MainWindow(Gtk.Window):
         self.display = Gtk.Entry(xalign=1, editable=False)
         self.display.set_max_length(25)
         self.display.modify_font(Pango.FontDescription('Dejavu Sans Mono 11'))
+        self.scrolled_window = Gtk.ScrolledWindow()
+        self.scrolled_window.set_hexpand(True)
+        self.scrolled_window.set_vexpand(False)
+        self.scrolled_window.set_min_content_width(200)
+        self.stack_display = Gtk.TextView(editable=False)
+        self.textbuffer = self.stack_display.get_buffer()
+        self.scrolled_window.add(self.stack_display)
+    
+    def reload_stack_disply_buffer(self):
+        self.textbuffer.set_text("")
+        for i in range(len(stack)):
+            self.textbuffer.insert_at_cursor(str(i) + ": " + str(stack[i -1]) + "\n")
+
+
 
     def create_grid(self):
         self.grid = Gtk.Grid()
@@ -105,6 +119,7 @@ class MainWindow(Gtk.Window):
         self.add(self.grid)
 
         self.grid.attach(self.display, 0, 0, 5, 1)
+        self.grid.attach(self.scrolled_window, 7, 0, 3, 6)
 
         self.grid.attach(self.seven, 0, 2, 1, 1)
         self.grid.attach(self.eight, 1, 2, 1, 1)
@@ -243,55 +258,73 @@ class MainWindow(Gtk.Window):
         global display_locker
         stack.append(float(self.display.get_text()))
         display_locker = True
-        print(stack)
+        # print(stack)
+        self.reload_stack_disply_buffer()
 
     def acting_addiction(self, addiction):
         global display_locker
-        x = stack[-1]
-        stack.pop()
-        y = stack[-1]
-        stack.pop()
-        score = x + y
-        stack.append(score)
-        self.display.set_text(str(score))
-        display_locker = True
-        print(stack)
+        try:
+            x = stack[-1]
+            stack.pop()
+            y = stack[-1]
+            stack.pop()
+            score = x + y
+            stack.append(score)
+            self.display.set_text(str(score))
+            display_locker = True
+            self.reload_stack_disply_buffer()
+        except:
+            self.textbuffer.set_text("Empty stack")
+            pass
+
 
     def acting_subtraction(self, subtraction):
         global display_locker
-        x = stack[-1]
-        stack.pop()
-        y = stack[-1]
-        stack.pop()
-        score = x - y
-        stack.append(score)
-        self.display.set_text(str(score))
-        display_locker = True
-        print(stack)
+        try:
+            x = stack[-1]
+            stack.pop()
+            y = stack[-1]
+            stack.pop()
+            score = x - y
+            stack.append(score)
+            self.display.set_text(str(score))
+            display_locker = True
+            self.reload_stack_disply_buffer()
+        except:
+            self.textbuffer.set_text("Empty stack")
+            pass
 
     def acting_multiplication(self, multiplication):
         global display_locker
-        x = stack[-1]
-        stack.pop()
-        y = stack[-1]
-        stack.pop()
-        score = x * y
-        stack.append(score)
-        self.display.set_text(str(score))
-        display_locker = True
-        print(stack)
+        try:
+            x = stack[-1]
+            stack.pop()
+            y = stack[-1]
+            stack.pop()
+            score = x * y
+            stack.append(score)
+            self.display.set_text(str(score))
+            display_locker = True
+            self.reload_stack_disply_buffer()
+        except:
+            self.textbuffer.set_text("Empty stack")
+            pass
 
     def acting_division(self, division):
         global display_locker
-        x = stack[-1]
-        stack.pop()
-        y = stack[-1]
-        stack.pop()
-        score = x / y
-        stack.append(score)
-        self.display.set_text(str(score))
-        display_locker = True
-        print(stack)
+        try:
+            x = stack[-1]
+            stack.pop()
+            y = stack[-1]
+            stack.pop()
+            score = x / y
+            stack.append(score)
+            self.display.set_text(str(score))
+            display_locker = True
+            self.reload_stack_disply_buffer()
+        except:
+            self.textbuffer.set_text("Empty stack")
+            pass
 
     def numeric_on_key_press_event(self, grid, event):
         if event.keyval == Gdk.KEY_0 or event.keyval == Gdk.KEY_KP_0:
