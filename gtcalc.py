@@ -106,9 +106,11 @@ class MainWindow(Gtk.Window):
         self.scrolled_window.add(self.stack_display)
     
     def reload_stack_disply_buffer(self):
+        i = 0
         self.textbuffer.set_text("")
-        for i in range(len(stack)):
-            self.textbuffer.insert_at_cursor(str(i) + ": " + str(stack[i -1]) + "\n")
+        for item in stack:
+            i += 1
+            self.textbuffer.insert_at_cursor(str(i) + ": " + str(item) + "\n")
 
 
 
@@ -258,7 +260,6 @@ class MainWindow(Gtk.Window):
         global display_locker
         stack.append(float(self.display.get_text()))
         display_locker = True
-        # print(stack)
         self.reload_stack_disply_buffer()
 
     def acting_addiction(self, addiction):
