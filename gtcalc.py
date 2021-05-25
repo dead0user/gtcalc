@@ -59,6 +59,7 @@ class MainWindow(Gtk.Window):
 
         self.change_sign = Gtk.Button(label="CHS")
         self.change_sign.connect("clicked", self.do_change_sign)
+        self.change_sign.set_tooltip_text("Change sign")
 
         self.point = Gtk.Button(label=".")
         self.point.connect("clicked", self.insert_point)
@@ -97,6 +98,11 @@ class MainWindow(Gtk.Window):
         self.display = Gtk.Entry(xalign=1, editable=False)
         self.display.set_max_length(25)
         self.display.modify_font(Pango.FontDescription('Dejavu Sans Mono 11'))
+        self.display.set_margin_start(5)
+        self.display.set_margin_end(5)
+        self.display.set_margin_top(5)
+        self.display.set_margin_bottom(5)
+
         self.scrolled_window = Gtk.ScrolledWindow()
         self.scrolled_window.set_hexpand(True)
         self.scrolled_window.set_vexpand(False)
@@ -104,15 +110,13 @@ class MainWindow(Gtk.Window):
         self.stack_display = Gtk.TextView(editable=False)
         self.textbuffer = self.stack_display.get_buffer()
         self.scrolled_window.add(self.stack_display)
-    
+
     def reload_stack_disply_buffer(self):
         i = 0
         self.textbuffer.set_text("")
         for item in stack:
             i += 1
             self.textbuffer.insert_at_cursor(str(i) + ": " + str(item) + "\n")
-
-
 
     def create_grid(self):
         self.grid = Gtk.Grid()
@@ -257,10 +261,14 @@ class MainWindow(Gtk.Window):
         self.display.set_text('')
 
     def add_to_stack(self, enter):
-        global display_locker
-        stack.append(float(self.display.get_text()))
-        display_locker = True
-        self.reload_stack_disply_buffer()
+        if len(stack) < 10:
+            global display_locker
+            stack.append(float(self.display.get_text()))
+            display_locker = True
+            self.reload_stack_disply_buffer()
+        else:
+            self.textbuffer.set_text("Stack overflow")
+            pass
 
     def acting_addiction(self, addiction):
         global display_locker
@@ -277,7 +285,6 @@ class MainWindow(Gtk.Window):
         except:
             self.textbuffer.set_text("Empty stack")
             pass
-
 
     def acting_subtraction(self, subtraction):
         global display_locker
